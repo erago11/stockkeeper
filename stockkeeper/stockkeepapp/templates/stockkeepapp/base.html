@@ -11,9 +11,12 @@
 
 	<title>株チェック</title>
 </head>
-
 <body>
 	<div class="container">
+		<nav class="nav">
+		  <a class="nav-link active" href="{% url 'stockkeepapp:mystocklist'%}">保存した銘柄</a>
+		  <a class="nav-link" href="{% url 'stockkeepapp:search'%}">銘柄追加</a>
+		</nav>
 		{% block content %}
 		{% endblock %}
 	</div>

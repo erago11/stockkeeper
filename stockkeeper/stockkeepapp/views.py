@@ -1,24 +1,42 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .forms import StockCreateForm
+from .forms import StockSearchForm,StockResultForm
+from .models import Stock
 from .self_made_module import get_stockprice as gs
 
-
-# Create your views here.
 def search(request):
-    if request.method == 'GET':
-        form = StockCreateForm(request.GET)
+    #データをDBに登録する。
+    if request.method == 'POST':
+        form = StockResultForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('stockkeepapp:mystocklist')
 
-    if form.is_valid():
-        code=form.cleaned_data['code']
-        context = gs.getstockprice(code)
-        return render(request,'stockkeepapp/search_result.html',context)
-    else:
+    #コードから、社名・現在株価を取得し、フォームに入力して表示する。
+    elif request.method == 'GET':
+        form = StockSearchForm(request.GET or None)
+        if form.is_valid():
+            code=form.cleaned_data['code']
+            companyInfo = gs.getstockprice(code)
+            form =StockResultForm(initial={
+                                           'code':companyInfo['stock_code'],
+                                           'name':companyInfo['company_name'],
+                                           'price':companyInfo['stock_price'],
+                                           'remarks':companyInfo['remarks']
+                                           })
+            context={
+                     'form':form
+                     }
+            return render(request,'stockkeepapp/search_result.html',context)
+
+    #コード入力欄のみを持ったページを表示する。
         context = {
-                   'form':StockCreateForm()
-        }
+                   'form':StockSearchForm()
+                   }
         return render(request,'stockkeepapp/search_form.html',context)
 
-def searchResult(request):
-    context = gs.getstockprice(3626)
-    return render(request,'stockkeepapp/search_result.html',context)
+def my_stock_list(request):
+    context = {
+               'stock_list':Stock.objects.all()
+    }
+    return render(request,'stockkeepapp/stock_list.html',context)

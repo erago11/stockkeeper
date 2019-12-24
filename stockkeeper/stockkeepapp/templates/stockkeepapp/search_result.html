@@ -1,7 +1,29 @@
 {% extends 'stockkeepapp/base.html' %}
 {% block content %}
-<p>HI,GEROGE</p>
-<p>銘柄コード：			{{stock_code}}</p>
-<p>会社名：			{{company_name}}</p>
-<p>現在の株価:	{{stock_price}}</p>
+<form action="" method="POST">
+	<table class="table">
+		<tr>
+			<th>{{form.code.label}}</th>
+			<td>{{form.code}}</td>
+		</tr>
+		<tr>
+			<th>{{form.name.label}}</th>
+			<td>{{form.name}}</td>
+		</tr>
+		<tr>
+			<th>{{form.price.label}}</th>
+			<td>{{form.price}}</td>
+		</tr>
+		<tr>
+			<th>{{form.remarks.label}}</th>
+			<td>{{form.remarks}}</td>
+		</tr>
+		<tr>
+			<th>{{form.date.label}}</th>
+			<td>{{form.date}}</td>
+		</tr>
+	</table>
+	<button type="submit" class = "btn btn-primary">登録</button>
+	{% csrf_token %}
+</form>
 {% endblock %}
