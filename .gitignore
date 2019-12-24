@@ -1,3 +1,4 @@
 
 workspace/
 stockkeeper/db.sqlite3
+stockkeeper/stockkeepapp/migrations/
