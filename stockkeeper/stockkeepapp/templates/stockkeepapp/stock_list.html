@@ -17,7 +17,7 @@
 			<td>{{stock.name}}</td>
 			<td>{{stock.price}}</td>
 			<td></td>
-			<td>{{stock.remarks}}</td>
+			<td>{{stock.remarks |truncatechars:5}}</td>
 			<td><a href="{% url 'stockkeepapp:delete' stock.pk %}">削除</a></td>
 		</tr>
 		{% endfor%}
