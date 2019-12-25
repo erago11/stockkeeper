@@ -8,15 +8,17 @@
 		<th>登録時株価</th>
 		<th>現在値</th>
 		<th>備考</th>
+		<th>#</th>
 	</thead>
 	<tbody>
 		{% for stock in stock_list %}
 		<tr>
-			<td>{{stock.code}}</td>
+			<td><a href="{% url 'stockkeepapp:update' stock.pk %}">{{stock.code}}</a></td>
 			<td>{{stock.name}}</td>
 			<td>{{stock.price}}</td>
 			<td></td>
 			<td>{{stock.remarks}}</td>
+			<td><a href="{% url 'stockkeepapp:delete' stock.pk %}">削除</a></td>
 		</tr>
 		{% endfor%}
 	</tbody>

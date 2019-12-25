@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .forms import StockSearchForm,StockResultForm
 from .models import Stock
@@ -40,3 +40,28 @@ def my_stock_list(request):
                'stock_list':Stock.objects.all()
     }
     return render(request,'stockkeepapp/stock_list.html',context)
+
+def update(request,pk):
+    stock = get_object_or_404(Stock,pk=pk)
+    form =StockResultForm(request.POST or None,instance=stock)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('stockkeepapp:mystocklist')
+
+    context = {
+               'form':form
+    }
+    return render(request,'stockkeepapp/search_result.html',context)
+
+def delete(request,pk):
+    stock = get_object_or_404(Stock,pk=pk)
+
+    if request.method == 'POST':
+        stock.delete()
+        return redirect('stockkeepapp:mystocklist')
+
+    context = {
+               'stock':stock
+    }
+    return render(request,'stockkeepapp/stock_confirm_delete.html',context)
