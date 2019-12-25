@@ -1,0 +1,30 @@
+{% extends 'stockkeepapp/base.html' %}
+{% block content %}
+<form action="" method="POST">
+	<table class="table">
+		<tr>
+			<th>{{stock.code.label}}</th>
+			<td>{{stock.code}}</td>
+		</tr>
+		<tr>
+			<th>{{stock.name.label}}</th>
+			<td>{{stock.name}}</td>
+		</tr>
+		<tr>
+			<th>{{stock.price.label}}</th>
+			<td>{{stock.price}}</td>
+		</tr>
+		<tr>
+			<th>{{stock.remarks.label}}</th>
+			<td>{{stock.remarks}}</td>
+		</tr>
+		<tr>
+			<th>{{stock.date.label}}</th>
+			<td>{{stock.date}}</td>
+		</tr>
+	</table>
+	<p>こちらのデータを削除します。</p>
+	<button type="submit" class = "btn btn-primary">削除</button>
+	{% csrf_token %}
+</form>
+{% endblock %}

@@ -1,5 +1,8 @@
 """
 引数のコード値から、会社名と、株価を取得する。
+返値のkeyのremarks,dateが空欄。
+remarksはユーザに入力してもらう。
+dateはmodels側で現在時間をdefaultで入力。
 
 Parameters
 -----
@@ -9,7 +12,7 @@ security_code:int
 Returns
 -----
 context: dictionary
-    会社名と、株価を持った辞書型返値。
+    models.py stockと同じ枠を持った辞書型返値。
 """
 
 from urllib import request
@@ -24,6 +27,8 @@ def getstockprice(stock_code):
     content ={
               'stock_code':stock_code,
               'company_name':company_name,
-              'stock_price':stock_price
+              'stock_price':stock_price,
+              'remarks':'',
+              'date':''
     }
     return content
