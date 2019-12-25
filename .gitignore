@@ -2,3 +2,6 @@
 workspace/
 stockkeeper/db.sqlite3
 stockkeeper/stockkeepapp/migrations/
+stockkeeper/stockkeeper/__pycache__
+stockkeeper/stockkeepapp/__pycache__
+stockkeeper/stockkeepapp/self_made_module/__pycache__
