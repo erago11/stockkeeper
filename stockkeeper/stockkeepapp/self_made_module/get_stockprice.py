@@ -32,3 +32,25 @@ def getstockprice(stock_code):
               'date':''
     }
     return content
+
+"""
+引数の辞書型に入っている銘柄すべての、現在の株価を取得する。
+返値の辞書にはすべての銘柄に現在の株価を追記したものを返す。
+
+Parameters
+-----
+context:dictionary
+
+
+Returns
+-----
+context: dictionary
+    引数と同じ型
+"""
+
+def get_now_stockprice(context):
+    for company_info in context['stock_list']:
+        stock_page = request.urlopen('https://minkabu.jp/stock/'+ str(company_info.code))
+        soup = BeautifulSoup(stock_page,'html.parser')
+        company_info.now_price = soup.find('div',id = 'stock-for-securities-company')['data-price']
+    return context

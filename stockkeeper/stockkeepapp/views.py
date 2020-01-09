@@ -39,6 +39,7 @@ def my_stock_list(request):
     context = {
                'stock_list':Stock.objects.all()
     }
+    context = gs.get_now_stockprice(context)
     return render(request,'stockkeepapp/stock_list.html',context)
 
 def update(request,pk):
