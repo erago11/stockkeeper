@@ -1,3 +1,21 @@
+
+
+from urllib import request
+import re
+from bs4 import BeautifulSoup
+
+def get_stock_info(stock_code):
+    stock_page = request.urlopen('https://minkabu.jp/stock/'+ str(stock_code))
+    soup = BeautifulSoup(stock_page,'html.parser')
+    company_name = soup.find('div',id = 'stock-for-securities-company')['data-short-name']
+    stock_price=soup.find('div',id = 'stock-for-securities-company')['data-price']
+    stock_info ={
+              'company_name':company_name,
+              'stock_price':stock_price,
+        }
+
+    return stock_info
+
 """
 引数のコード値から、会社名と、株価を取得する。
 返値のkeyのremarks,dateが空欄。
@@ -15,19 +33,12 @@ context: dictionary
     models.py stockと同じ枠を持った辞書型返値。
 """
 
-from urllib import request
-import re
-from bs4 import BeautifulSoup
-
-def getstockprice(stock_code):
-    stock_page = request.urlopen('https://minkabu.jp/stock/'+ str(stock_code))
-    soup = BeautifulSoup(stock_page,'html.parser')
-    company_name = soup.find('div',id = 'stock-for-securities-company')['data-short-name']
-    stock_price=soup.find('div',id = 'stock-for-securities-company')['data-price']
+def get_company_info(stock_code):
+    stock_info = get_stock_info(stock_code)
     content ={
               'stock_code':stock_code,
-              'company_name':company_name,
-              'stock_price':stock_price,
+              'company_name':stock_info['company_name'],
+              'stock_price':stock_info['stock_price'],
               'remarks':'',
               'date':''
     }
@@ -50,7 +61,5 @@ context: dictionary
 
 def get_now_stockprice(context):
     for company_info in context['stock_list']:
-        stock_page = request.urlopen('https://minkabu.jp/stock/'+ str(company_info.code))
-        soup = BeautifulSoup(stock_page,'html.parser')
-        company_info.now_price = soup.find('div',id = 'stock-for-securities-company')['data-price']
+        company_info.now_price = get_stock_info(company_info.code)['stock_price']
     return context
