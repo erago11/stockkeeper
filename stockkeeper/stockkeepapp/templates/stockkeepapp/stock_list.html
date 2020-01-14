@@ -1,4 +1,26 @@
 {% extends 'stockkeepapp/base.html' %}
+{% block headblock %}
+<script>
+	$(function(){
+		{% for stock in stock_list %}
+			dif =  $("#{{stock.pk}}_now_price").text() -  $("#{{stock.pk}}_price").text();
+			if(dif === 0){
+				$("#{{stock.pk}}_price_eva").append("±0");
+			}else if(0 < dif){
+				$("#{{stock.pk}}_price_eva").children("img").attr({
+					src:"static/img/up.png",
+					align:"middle"
+				});
+				$("#{{stock.pk}}_price_eva").append("+"+dif);
+			}else{
+				$("#{{stock.pk}}_price_eva").children("img").attr("src","static/img/down.png");
+				$("#{{stock.pk}}_price_eva").append(dif);
+			}
+		{% endfor %}
+	});
+</script>
+{% endblock %}
+
 {% block content %}
 <h1>保存銘柄一覧</h1>
 <table class="table">
@@ -7,6 +29,7 @@
 		<th>会社名</th>
 		<th>登録時株価</th>
 		<th>現在値</th>
+		<th>評価</th>
 		<th>備考</th>
 		<th>#</th>
 	</thead>
@@ -15,12 +38,13 @@
 		<tr>
 			<td><a href="{% url 'stockkeepapp:update' stock.pk %}">{{stock.code}}</a></td>
 			<td>{{stock.name}}</td>
-			<td>{{stock.price}}</td>
-			<td>{{stock.now_price}}</td>
+			<td id = "{{stock.pk}}_price">{{stock.price}}</td>
+			<td id = "{{stock.pk}}_now_price" >{{stock.now_price}}</td>
+			<td id = "{{stock.pk}}_price_eva"><img src=""></td>
 			<td>{{stock.remarks |truncatechars:5}}</td>
 			<td><a href="{% url 'stockkeepapp:delete' stock.pk %}">削除</a></td>
 		</tr>
-		{% endfor%}
+		{% endfor %}
 	</tbody>
 </table>
 {% endblock %}
