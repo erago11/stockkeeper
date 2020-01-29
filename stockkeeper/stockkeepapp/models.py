@@ -10,3 +10,6 @@ class Stock(models.Model):
     now_price=models.FloatField('現在値',default=0,blank=True)
     remarks = models.TextField('備考',blank=True)
     date = models.DateTimeField('日付',default=timezone.now)
+
+    def __str__(self):
+        return self.name
