@@ -4,6 +4,7 @@ from . import views
 app_name='stockkeepapp'
 
 urlpatterns = [
+    path('',views.my_stock_list,name='my_stock_list'),
     path('search',views.search,name='search'),
     path('mystocklist',views.my_stock_list,name='mystocklist'),
     path('update/<int:pk>',views.update,name='update'),
