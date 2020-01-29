@@ -42,7 +42,11 @@
 			<td id = "{{stock.pk}}_now_price" >{{stock.now_price}}</td>
 			<td id = "{{stock.pk}}_price_eva"><img src=""></td>
 			<td>{{stock.remarks |truncatechars:5}}</td>
-			<td><a href="{% url 'stockkeepapp:delete' stock.pk %}">削除</a></td>
+			<td>
+				{% if user.is_superuser %}
+				<a href="{% url 'stockkeepapp:delete' stock.pk %}">削除</a>
+				{% endif %}
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>
