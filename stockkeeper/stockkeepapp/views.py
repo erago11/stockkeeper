@@ -17,7 +17,7 @@ def search(request):
         form = StockSearchForm(request.GET or None)
         if form.is_valid():
             code=form.cleaned_data['code']
-            companyInfo = gs.getstockprice(code)
+            companyInfo = gs.get_company_info(code)
             form =StockResultForm(initial={
                                            'code':companyInfo['stock_code'],
                                            'name':companyInfo['company_name'],
@@ -39,6 +39,7 @@ def my_stock_list(request):
     context = {
                'stock_list':Stock.objects.all()
     }
+    context = gs.get_now_stockprice(context)
     return render(request,'stockkeepapp/stock_list.html',context)
 
 def update(request,pk):
