@@ -13,7 +13,10 @@
 				});
 				$("#{{stock.pk}}_price_eva").append("+"+dif);
 			}else{
-				$("#{{stock.pk}}_price_eva").children("img").attr("src","static/img/down.png");
+				$("#{{stock.pk}}_price_eva").children("img").attr({
+					src:"static/img/down.png",
+					align:"middle"
+				});
 				$("#{{stock.pk}}_price_eva").append(dif);
 			}
 		{% endfor %}
